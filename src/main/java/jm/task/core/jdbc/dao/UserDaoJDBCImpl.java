@@ -18,7 +18,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try(Connection connection = Util.getConnection()) {
-                System.out.println("Get connection");
+                System.out.println("Есть соединение с базой данных");
                 connection.createStatement().execute("CREATE TABLE IF NOT EXISTS user" +
                         "(id BIGINT AUTO_INCREMENT," +
                         "name VARCHAR(45)," +
@@ -26,11 +26,11 @@ public class UserDaoJDBCImpl implements UserDao {
                         "age TINYINT," +
                         "PRIMARY KEY (id))");
             } catch (Exception e) {
-                System.out.println("Can't create table");
+                System.out.println("Таблица не создана");
                 System.out.println(e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("Connection failed");
+            System.out.println("Не удалось подключиться к базе данных");
             System.out.println(e.getMessage());
         }
     }
@@ -39,14 +39,14 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try(Connection connection = Util.getConnection()) {
-                System.out.println("Get connection");
+                System.out.println("Есть соединение с базой данных");
                 connection.createStatement().execute("DROP TABLE IF EXISTS user");
             } catch (Exception e) {
-                System.out.println("Can't drop table");
+                System.out.println("Не удалось удалить таблицу");
                 System.out.println(e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("Connection failed");
+            System.out.println("Не удалось подключиться к базе данных");
             System.out.println(e.getMessage());
         }
 
@@ -56,14 +56,15 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try(Connection connection = Util.getConnection()) {
-                System.out.println("Get connection");
+                System.out.println("Есть соединение с базой данных");
                 connection.createStatement().execute("INSERT INTO `user` (name, lastName, age) VALUES ('" + name + "', '" + lastName + "', " + age + ")");
+                System.out.println("User с именем - " + name + " добавлен в базу данных");
             } catch (Exception e) {
-                System.out.println("Can't save user");
+                System.out.println("Не удалось добавить пользователя");
                 System.out.println(e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("Connection failed");
+            System.out.println("Не удалось подключиться к базе данных");
             System.out.println(e.getMessage());
         }
     }
@@ -73,14 +74,14 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try(Connection connection = Util.getConnection()) {
-                System.out.println("Get connection");
+                System.out.println("Есть соединение с базой данных");
                 connection.createStatement().execute("DELETE FROM user WHERE id = " + id);
             } catch (Exception e) {
-                System.out.println("Can't remove user");
+                System.out.println("Не удалось удалить пользователя с id = " + id);
                 System.out.println(e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("Connection failed");
+            System.out.println("Не удалось подключиться к базе данных");
             System.out.println(e.getMessage());
         }
 
@@ -90,7 +91,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try(Connection connection = Util.getConnection()) {
-                System.out.println("Get connection");
+                System.out.println("Есть соединение с базой данных");
                 DatabaseMetaData metaData = connection.getMetaData();
                 ResultSet tables = metaData.getTables(null, null, "user", null);
                 if (tables.next()) {
@@ -106,15 +107,15 @@ public class UserDaoJDBCImpl implements UserDao {
                     }
                     return userList;
                 } else {
-                    System.out.println("Table does not exist");
+                    System.out.println("Таблица 'user' не существует");
                     return null;
                 }
             } catch (Exception e) {
-                System.out.println("Can't get all users");
+                System.out.println("Не удалось получить список пользователей");
                 System.out.println(e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("Connection failed");
+            System.out.println("Не удалось подключиться к базе данных");
             System.out.println(e.getMessage());
         }
         return null;
@@ -124,21 +125,21 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try(Connection connection = Util.getConnection()) {
-                System.out.println("Get connection");
+                System.out.println("Есть соединение с базой данных. Очистка таблицы 'user' началась");
                 DatabaseMetaData metaData = connection.getMetaData();
                 ResultSet tables = metaData.getTables(null, null, "user", null);
 
                 if (tables.next()) {
                     connection.createStatement().execute("DELETE FROM user");
                 } else {
-                    System.out.println("Table 'user' does not exist");
+                    System.out.println("Таблица 'user' не существует. Ничего не произошло");
                 }
             } catch (Exception e) {
-                System.out.println("Can't clean table");
+                System.out.println("Не удалось очистить таблицу 'user'");
                 System.out.println(e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("Connection failed");
+            System.out.println("Не удалось подключиться к базе данных");
             System.out.println(e.getMessage());
         }
     }
