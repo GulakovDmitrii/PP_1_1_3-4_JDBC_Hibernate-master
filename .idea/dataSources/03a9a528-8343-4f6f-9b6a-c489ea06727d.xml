@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="@localhostq">
+<dataSource name="@localhost">
   <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.51">
     <root id="1">
       <DefaultCasing>lower/lower</DefaultCasing>
       <DefaultEngine>InnoDB</DefaultEngine>
       <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
-      <Grants>|root||Dmitriy||ALTER|G
-|root||root|localhost|ALTER|G
-|root||Dmitriy||ALTER ROUTINE|G
+      <Grants>|root||root|localhost|ALTER|G
 |root||root|localhost|ALTER ROUTINE|G
 |root||root|localhost|APPLICATION_PASSWORD_ADMIN|G
 |root||mysql.infoschema|localhost|AUDIT_ABORT_EXEMPT|G
@@ -25,30 +23,19 @@
 |root||root|localhost|CLONE_ADMIN|G
 |root||mysql.session|localhost|CONNECTION_ADMIN|G
 |root||root|localhost|CONNECTION_ADMIN|G
-|root||Dmitriy||CREATE|G
 |root||root|localhost|CREATE|G
 |root||root|localhost|CREATE ROLE|G
-|root||Dmitriy||CREATE ROUTINE|G
 |root||root|localhost|CREATE ROUTINE|G
-|root||Dmitriy||CREATE TABLESPACE|G
 |root||root|localhost|CREATE TABLESPACE|G
-|root||Dmitriy||CREATE TEMPORARY TABLES|G
 |root||root|localhost|CREATE TEMPORARY TABLES|G
-|root||Dmitriy||CREATE USER|G
 |root||root|localhost|CREATE USER|G
-|root||Dmitriy||CREATE VIEW|G
 |root||root|localhost|CREATE VIEW|G
-|root||Dmitriy||DELETE|G
 |root||root|localhost|DELETE|G
-|root||Dmitriy||DROP|G
 |root||root|localhost|DROP|G
 |root||root|localhost|DROP ROLE|G
 |root||root|localhost|ENCRYPTION_KEY_ADMIN|G
-|root||Dmitriy||EVENT|G
 |root||root|localhost|EVENT|G
-|root||Dmitriy||EXECUTE|G
 |root||root|localhost|EXECUTE|G
-|root||Dmitriy||FILE|G
 |root||root|localhost|FILE|G
 |root||mysql.infoschema|localhost|FIREWALL_EXEMPT|G
 |root||mysql.session|localhost|FIREWALL_EXEMPT|G
@@ -60,33 +47,24 @@
 |root||root|localhost|FLUSH_USER_RESOURCES|G
 |root||root|localhost|GROUP_REPLICATION_ADMIN|G
 |root||root|localhost|GROUP_REPLICATION_STREAM|G
-|root||Dmitriy||INDEX|G
 |root||root|localhost|INDEX|G
 |root||root|localhost|INNODB_REDO_LOG_ARCHIVE|G
 |root||root|localhost|INNODB_REDO_LOG_ENABLE|G
-|root||Dmitriy||INSERT|G
 |root||root|localhost|INSERT|G
-|root||Dmitriy||LOCK TABLES|G
 |root||root|localhost|LOCK TABLES|G
 |root||root|localhost|PASSWORDLESS_USER_ADMIN|G
 |root||mysql.session|localhost|PERSIST_RO_VARIABLES_ADMIN|G
 |root||root|localhost|PERSIST_RO_VARIABLES_ADMIN|G
-|root||Dmitriy||PROCESS|G
 |root||root|localhost|PROCESS|G
-|root||Dmitriy||REFERENCES|G
 |root||root|localhost|REFERENCES|G
-|root||Dmitriy||RELOAD|G
 |root||root|localhost|RELOAD|G
-|root||Dmitriy||REPLICATION CLIENT|G
 |root||root|localhost|REPLICATION CLIENT|G
-|root||Dmitriy||REPLICATION SLAVE|G
 |root||root|localhost|REPLICATION SLAVE|G
 |root||root|localhost|REPLICATION_APPLIER|G
 |root||root|localhost|REPLICATION_SLAVE_ADMIN|G
 |root||root|localhost|RESOURCE_GROUP_ADMIN|G
 |root||root|localhost|RESOURCE_GROUP_USER|G
 |root||root|localhost|ROLE_ADMIN|G
-|root||Dmitriy||SELECT|G
 |root||mysql.infoschema|localhost|SELECT|G
 |root||root|localhost|SELECT|G
 |root||root|localhost|SENSITIVE_VARIABLES_OBSERVER|G
@@ -94,15 +72,11 @@
 |root||mysql.session|localhost|SESSION_VARIABLES_ADMIN|G
 |root||root|localhost|SESSION_VARIABLES_ADMIN|G
 |root||root|localhost|SET_USER_ID|G
-|root||Dmitriy||SHOW DATABASES|G
 |root||root|localhost|SHOW DATABASES|G
-|root||Dmitriy||SHOW VIEW|G
 |root||root|localhost|SHOW VIEW|G
 |root||root|localhost|SHOW_ROUTINE|G
-|root||Dmitriy||SHUTDOWN|G
 |root||mysql.session|localhost|SHUTDOWN|G
 |root||root|localhost|SHUTDOWN|G
-|root||Dmitriy||SUPER|G
 |root||mysql.session|localhost|SUPER|G
 |root||root|localhost|SUPER|G
 |root||mysql.infoschema|localhost|SYSTEM_USER|G
@@ -113,12 +87,9 @@
 |root||root|localhost|SYSTEM_VARIABLES_ADMIN|G
 |root||root|localhost|TABLE_ENCRYPTION_ADMIN|G
 |root||root|localhost|TELEMETRY_LOG_ADMIN|G
-|root||Dmitriy||TRIGGER|G
 |root||root|localhost|TRIGGER|G
-|root||Dmitriy||UPDATE|G
 |root||root|localhost|UPDATE|G
 |root||root|localhost|XA_RECOVER_ADMIN|G
-|root||Dmitriy||grant option|G
 |root||root|localhost|grant option|G
 performance_schema|schema||mysql.session|localhost|SELECT|G
 sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
@@ -1024,8 +995,6 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Charset>utf8mb4</Charset>
     </collation>
     <schema id="288" parent="1" name="mysql">
-      <Grants>user|||mysql.session|localhost|SELECT|G</Grants>
-      <LastIntrospectionLocalTimestamp>2024-06-20.22:16:50</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="289" parent="1" name="information_schema">
@@ -1044,30 +1013,59 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="294" parent="1" name="user">
-      <LastIntrospectionLocalTimestamp>2024-06-20.22:22:35</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-06-30.16:29:54</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
-    <user id="295" parent="1" name="Dmitriy">
-      <Plugin>caching_sha2_password</Plugin>
-    </user>
-    <user id="296" parent="1" name="mysql.infoschema">
+    <user id="295" parent="1" name="mysql.infoschema">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="297" parent="1" name="mysql.session">
+    <user id="296" parent="1" name="mysql.session">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="298" parent="1" name="mysql.sys">
+    <user id="297" parent="1" name="mysql.sys">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="299" parent="1" name="root">
+    <user id="298" parent="1" name="root">
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
+    <table id="299" parent="294" name="user">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <column id="300" parent="299" name="id">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>bigint|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="301" parent="299" name="name">
+      <DasType>varchar(45)|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="302" parent="299" name="lastName">
+      <DasType>varchar(45)|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="303" parent="299" name="age">
+      <DasType>tinyint|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <index id="304" parent="299" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="305" parent="299" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
   </database-model>
 </dataSource>
