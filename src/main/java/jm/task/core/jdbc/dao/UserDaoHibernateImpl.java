@@ -4,6 +4,7 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
@@ -72,7 +73,7 @@ public class UserDaoHibernateImpl implements UserDao {
             Transaction transaction = session.beginTransaction();
             session.delete(session.get(User.class, id));
             transaction.commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Пользователь не удален. Пользователь с идентификатором " + id + " не найден");
             e.printStackTrace();
         }
@@ -83,7 +84,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public List<User> getAllUsers() {
         try (Session session = Util.getSessionFactory().openSession()) {
             return session.createQuery("FROM User").getResultList();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Таблица пуста");
             e.printStackTrace();
         }
@@ -96,7 +97,7 @@ public class UserDaoHibernateImpl implements UserDao {
             Transaction transaction = session.beginTransaction();
             session.createNativeQuery("DELETE FROM user").executeUpdate();
             transaction.commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Таблица не очищена");
             e.printStackTrace();
         }

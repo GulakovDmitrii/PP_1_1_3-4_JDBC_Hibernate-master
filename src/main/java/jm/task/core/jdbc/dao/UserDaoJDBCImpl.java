@@ -5,7 +5,9 @@ import jm.task.core.jdbc.util.Util;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,48 +15,94 @@ public class UserDaoJDBCImpl implements UserDao {
     public UserDaoJDBCImpl() {
 
     }
+
     Connection connection = Util.getConnection();
 
 
-
+    @Override
     public void createUsersTable() {
         try {
             connection.createStatement().execute("CREATE TABLE IF NOT EXISTS user(id BIGINT AUTO_INCREMENT,name VARCHAR(45),lastName VARCHAR(45),age TINYINT,PRIMARY KEY (id))");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Таблица не создана");
             System.out.println(e.getMessage());
         }
     }
 
+    @Override
     public void dropUsersTable() {
         try {
             connection.createStatement().execute("DROP TABLE IF EXISTS user");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Таблица не удалена");
             System.out.println(e.getMessage());
         }
 
     }
 
+    @Override
     public void saveUser(String name, String lastName, byte age) {
         try {
-            connection.createStatement().execute("INSERT INTO user(name, lastName, age) VALUES ('" + name + "', '" + lastName + "', " + age + ")");
-            System.out.println("User с именем - " + name + " " + lastName + " добавлен в базу данных");
-        } catch (Exception e) {
+            connection.setAutoCommit(false);
+
+            try (PreparedStatement statement = connection.prepareStatement("INSERT INTO user(name, lastName, age) VALUES (?, ?, ?)")) {
+                statement.setString(1, name);
+                statement.setString(2, lastName);
+                statement.setByte(3, age);
+                statement.executeUpdate();
+                System.out.println("User с именем - " + name + " " + lastName + " добавлен в базу данных");
+            }
+
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                System.out.println("Транзакция отменена");
+                System.out.println(ex.getMessage());
+            }
             System.out.println("Пользователь не добавлен");
             System.out.println(e.getMessage());
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                System.out.println("Не удалось сбросить автоматическое подтверждение транзакции");
+                System.out.println(ex.getMessage());
+            }
         }
     }
-
+    @Override
     public void removeUserById(long id) {
         try {
-            connection.createStatement().execute("DELETE FROM user WHERE id = " + id);
-        } catch (Exception e) {
+            connection.setAutoCommit(false);
+
+            try (PreparedStatement statement = connection.prepareStatement("DELETE FROM user WHERE id = ?")) {
+                statement.setLong(1, id);
+                statement.executeUpdate();
+            }
+
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                System.out.println("Транзакция отменена");
+                System.out.println(ex.getMessage());
+            }
             System.out.println("Пользователь не удален. Пользователь с идентификатором " + id + " не найден");
             System.out.println(e.getMessage());
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                System.out.println("Не удалось сбросить автоматическое подтверждение транзакции");
+                System.out.println(ex.getMessage());
+            }
         }
     }
 
+    @Override
     public List<User> getAllUsers() {
         try {
             DatabaseMetaData metaData = connection.getMetaData();
@@ -75,15 +123,17 @@ public class UserDaoJDBCImpl implements UserDao {
                 System.out.println("Таблица 'user' не существует");
                 return null;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Не удалось получить список пользователей");
             System.out.println(e.getMessage());
         }
-        return null;
+        return new ArrayList<>();
     }
 
+    @Override
     public void cleanUsersTable() {
-        try{
+        try {
+            connection.setAutoCommit(false);
             System.out.println("Очистка таблицы 'user' началась");
             DatabaseMetaData metaData = connection.getMetaData();
             ResultSet tables = metaData.getTables(null, null, "user", null);
@@ -94,9 +144,24 @@ public class UserDaoJDBCImpl implements UserDao {
             } else {
                 System.out.println("Таблица 'user' не существует. Ничего не произошло");
             }
-        } catch (Exception e) {
+
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                System.out.println("Транзакция отменена");
+                System.out.println(ex.getMessage());
+            }
             System.out.println("Не удалось очистить таблицу 'user'");
             System.out.println(e.getMessage());
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                System.out.println("Не удалось сбросить автоматическое подтверждение транзакции");
+                System.out.println(ex.getMessage());
+            }
         }
     }
 }
