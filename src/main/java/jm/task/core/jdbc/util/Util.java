@@ -21,6 +21,11 @@ public class Util {
     private static final String PASSWORD = "Monitor4286";
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+
+    private Util() {
+
+    }
+
     private static SessionFactory sessionFactory;
 
     private static Connection connection = null;
@@ -52,10 +57,10 @@ public class Util {
         return sessionFactory;
     }
 
-    public static Connection getConnection()  {
+    public static Connection getConnection() {
 
 
-        try{
+        try {
             Class.forName(DRIVER);
             System.out.println("Подключение к базе данных прошло успешно");
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -65,6 +70,7 @@ public class Util {
         }
         return connection;
     }
+
     public static void closeConnection() {
         try {
             connection.close();
