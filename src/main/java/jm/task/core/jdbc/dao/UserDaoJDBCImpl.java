@@ -8,21 +8,23 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
+
+    private Connection connection = Util.getConnection();
+
     public UserDaoJDBCImpl() {
 
     }
 
-    Connection connection = Util.getConnection();
-
 
     @Override
     public void createUsersTable() {
-        try {
-            connection.createStatement().execute("CREATE TABLE IF NOT EXISTS user(id BIGINT AUTO_INCREMENT,name VARCHAR(45),lastName VARCHAR(45),age TINYINT,PRIMARY KEY (id))");
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("CREATE TABLE IF NOT EXISTS user(id BIGINT AUTO_INCREMENT,name VARCHAR(45),lastName VARCHAR(45),age TINYINT,PRIMARY KEY (id))");
         } catch (SQLException e) {
             System.out.println("Таблица не создана");
             System.out.println(e.getMessage());
@@ -31,13 +33,12 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        try {
-            connection.createStatement().execute("DROP TABLE IF EXISTS user");
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("DROP TABLE IF EXISTS user");
         } catch (SQLException e) {
             System.out.println("Таблица не удалена");
             System.out.println(e.getMessage());
         }
-
     }
 
     @Override
@@ -45,12 +46,21 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             connection.setAutoCommit(false);
 
-            try (PreparedStatement statement = connection.prepareStatement("INSERT INTO user(name, lastName, age) VALUES (?, ?, ?)")) {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO user(name, lastName, age) VALUES (?, ?, ?)");
+
+            try {
                 statement.setString(1, name);
                 statement.setString(2, lastName);
                 statement.setByte(3, age);
                 statement.executeUpdate();
                 System.out.println("User с именем - " + name + " " + lastName + " добавлен в базу данных");
+            } finally {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    System.out.println("Не удалось закрыть подготовленное выражение");
+                    System.out.println(ex.getMessage());
+                }
             }
 
             connection.commit();
@@ -72,14 +82,23 @@ public class UserDaoJDBCImpl implements UserDao {
             }
         }
     }
+
     @Override
     public void removeUserById(long id) {
         try {
             connection.setAutoCommit(false);
 
-            try (PreparedStatement statement = connection.prepareStatement("DELETE FROM user WHERE id = ?")) {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM user WHERE id = ?");
+            try {
                 statement.setLong(1, id);
                 statement.executeUpdate();
+            } finally {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    System.out.println("Не удалось закрыть подготовленное выражение");
+                    System.out.println(ex.getMessage());
+                }
             }
 
             connection.commit();
